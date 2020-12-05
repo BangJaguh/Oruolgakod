@@ -161,13 +161,15 @@ systemctl daemon-reload
 wget -O /etc/openvpn/client.ovpn "https://raw.githubusercontent.com/acillsadank/install/master/client.conf"
 sed -i $MYIP2 /etc/openvpn/client.ovpn;
 echo '<ca>' >> /etc/openvpn/client.ovpn
-cat /etc/openvpn/ca.crt >> /etc/openvpn/client.ovpn
+cat /etc/openvpn/ca.crt
+cat /etc/openvpn/server.crt
+cat /etc/openvpn/server.key >> /etc/openvpn/client.ovpn
 echo '</ca>' >> /etc/openvpn/client.ovpn
 cp client.ovpn /home/vps/public_html/
 wget -O /etc/openvpn/openvpnssl.ovpn "https://raw.githubusercontent.com/BangJaguh/Oruolgakod/main/openvpnssl.conf"
-echo '<cert>' >> /etc/openvpn/openvpnssl.ovpn
-cat /etc/openvpn/server.crt >> /etc/openvpn/openvpnssl.ovpn
-echo '</cert>' >> /etc/openvpn/openvpnssl.ovpn
+echo '<key>' >> /etc/openvpn/openvpnssl.ovpn
+cat /etc/openvpn/server.key >> /etc/openvpn/openvpnssl.ovpn
+echo '</key>' >> /etc/openvpn/openvpnssl.ovpn
 cp openvpnssl.ovpn /home/vps/public_html/
 
 # install badvpn
