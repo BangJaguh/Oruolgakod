@@ -162,6 +162,7 @@ echo "<pre>Setup by SABAH9 | telegram @XXXXXXXXX </pre>" > /home/vps/public_html
 echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/sslmode/sslmode/master/vps.conf"
 sed -i 's/listen = \/var\/run\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
+
 # Install openvpn
 cr
 cd
@@ -453,9 +454,6 @@ sed -i "s/Internal/Internet/g" config.php
 sed -i "/SixXS IPv6/d" config.php
 service vnstat restart
 
-echo "UPDATE AND INSTALL COMPLETE COMPLETE 99% BE PATIENT"
-rm *.sh;rm *.txt;rm *.tar;rm *.deb;rm *.asc;rm *.zip;rm ddos*;
-
 clear
 # Iptables
 apt-get install iptables
@@ -481,9 +479,6 @@ chmod +x /etc/network/if-up.d/iptables
 
 # XML Parser
 cd
-apt-get -y --force-yes -f install libxml-parser-perl
-
-echo "ติดตั้งสำเร็จ" > /usr/bin/350_fulle
 mv /etc/openvpn/zenon.ovpn /home/vps/public_html/zenon.ovpn
 
 
