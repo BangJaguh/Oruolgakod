@@ -152,22 +152,16 @@ apt-get -y install nginx libexpat1-dev libxml-parser-perl
 # install essential package
 apt-get -y install nano iptables-persistent dnsutils screen whois ngrep unzip unrar
 
-#install Nginx
-apt-get install -qy nginx > /dev/null 2>&1
-rm -f /etc/nginx/sites-enabled/default
-rm -f /etc/nginx/sites-available/default
-wget -q -O /etc/nginx/nginx.conf "https://raw.githubusercontent.com/Teerut26/VPN/master/nginx.conf"
-wget -q -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/Teerut26/VPN/master/vps.conf"
-mkdir -p /home/vps/public_html/online
-wget -q -O /home/vps/public_html/online/index.php "https://raw.githubusercontent.com/Teerut26/VPN/master/2.txt"
-echo "<?php phpinfo( ); ?>" > /home/vps/public_html/info.php
-service nginx restart > /dev/null 2>&1
-apt-get install -qy php7.0-fpm > /dev/null 2>&1
-sed -i 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
-apt-get install -qy php7.0-curl > /dev/null 2>&1
-service php7.0-fpm restart > /dev/null 2>&1
-fi
-
+# nginx
+apt-get -y install nginx php-fpm php-mcrypt php-cli libexpat1-dev libxml-parser-perl
+rm /etc/nginx/sites-enabled/default
+rm /etc/nginx/sites-available/default
+wget -O /etc/php/7.0/fpm/pool.d/www.conf "https://raw.githubusercontent.com/sslmode/sslmode/master/www.conf"
+mkdir -p /home/vps/public_html
+echo "<pre>Setup by SABAH9 | telegram @XXXXXXXXX </pre>" > /home/vps/public_html/index.php
+echo "<?php phpinfo(); ?>" > /home/vps/public_html/info.php
+wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/sslmode/sslmode/master/vps.conf"
+sed -i 's/listen = \/var\/run\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
 # Install openvpn
 cr
 cd
