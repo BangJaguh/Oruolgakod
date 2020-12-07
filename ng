@@ -1,0 +1,33 @@
+#install Nginx
+ok "➡ apt-get install nginx"
+apt-get install -qy nginx > /dev/null 2>&1
+rm -f /etc/nginx/sites-enabled/default
+rm -f /etc/nginx/sites-available/default
+wget -q -O /etc/nginx/nginx.conf "$zenon/nginx.conf"
+wget -q -O /etc/nginx/conf.d/vps.conf "$zenon/vps.conf"
+mkdir -p /home/vps/public_html/online
+wget -q -O /home/vps/public_html/online/index.php "$zenon/2.txt"
+wget -q -O /home/vps/public_html/index.html "$zenon/1.txt"
+echo "<?php phpinfo( ); ?>" > /home/vps/public_html/info.php
+ok "➡ service nginx restart"
+service nginx restart > /dev/null 2>&1
+
+#install php-fpm
+if [[ "$VERSION_ID" = 'VERSION_ID="7"' || "$VERSION_ID" = 'VERSION_ID="8"' || "$VERSION_ID" = 'VERSION_ID="14.04"' ]]; then
+
+#debian8
+ok "➡ apt-get install php"
+apt-get install -qy php5-fpm > /dev/null 2>&1
+sed -i 's/listen = \/var\/run\/php5-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php5/fpm/pool.d/www.conf
+apt-get install -qy php5-curl > /dev/null 2>&1
+ok "➡ service php restart"
+service php5-fpm restart -q > /dev/null 2>&1
+elif [[ "$VERSION_ID" = 'VERSION_ID="9"' || "$VERSION_ID" = 'VERSION_ID="16.04"' ]]; then
+#debian9 Ubuntu16.4
+ok "➡ apt-get install php"
+apt-get install -qy php7.0-fpm > /dev/null 2>&1
+sed -i 's/listen = \/run\/php\/php7.0-fpm.sock/listen = 127.0.0.1:9000/g' /etc/php/7.0/fpm/pool.d/www.conf
+apt-get install -qy php7.0-curl > /dev/null 2>&1
+ok "➡ service php restart"
+service php7.0-fpm restart > /dev/null 2>&1
+fi
