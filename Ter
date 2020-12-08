@@ -147,6 +147,40 @@ echo '</ca>' >> /home/vps/public_html/client.ovpn
 service openvpn start
 service openvpn status
 
+client = yes
+debug = 6
+
+[openvpn]
+accept = 127.0.0.1:1147
+connect = $MYIP:587
+TIMEOUTclose = 0
+verify = 0
+sni = m.facebook.com
+END
+
+# Configure Stunnel
+sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
+openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -sha256 -subj '/CN=127.0.0.1/O=localhost/C=PH' -keyout /etc/stunnel/stunnel.pem -out /etc/stunnel/stunnel.pem
+cat > /etc/stunnel/stunnel.conf <<-END
+
+sslVersion = all
+pid = /stunnel.pid
+socket = l:TCP_NODELAY=1
+socket = r:TCP_NODELAY=1
+client = no
+
+[openvpn]
+accept = 587
+connect = 127.0.0.1:1194
+cert = /etc/stunnel/stunnel.pem
+
+[dropbear]
+accept = 443
+connect = 127.0.0.1:442
+cert = /etc/stunnel/stunnel.pem
+
+END
+
 # Setting USW
 apt-get install ufw
 ufw allow ssh
@@ -204,13 +238,7 @@ apt-get -y install webmin
 sed -i 's/ssl=1/ssl=0/g' /etc/webmin/miniserv.conf
 service webmin restart
 
-# Install Stunnel
-apt-get -y install stunnel4
-wget -O /etc/stunnel/stunnel.pem "https://raw.githubusercontent.com/Dreyannz/AutoScriptVPS/master/Files/Stunnel/stunnel.pem"
-wget -O /etc/stunnel/stunnel.conf "https://raw.githubusercontent.com/Dreyannz/AutoScriptVPS/master/Files/Stunnel/stunnel.conf"
-sed -i $MYIP2 /etc/stunnel/stunnel.conf
-sed -i 's/ENABLED=0/ENABLED=1/g' /etc/default/stunnel4
-service stunnel4 restart
+
 
 # Install Fail2Ban
 apt-get -y install fail2ban;
