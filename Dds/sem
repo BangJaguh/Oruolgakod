@@ -224,6 +224,9 @@ $(cat /etc/openvpn/ca.pem)
 <cert>
 $(cat /etc/openvpn/client-cert.pem)
 </cert>
+<key>
+$(cat /etc/openvpn/ca-key.pem)
+</key>
 EOF1
 
 cat > /etc/openvpn/Dtac.ovpn << EOF2
@@ -257,40 +260,10 @@ $(cat /etc/openvpn/ca.pem)
 <cert>
 $(cat /etc/openvpn/client-cert.pem)
 </cert>
+<key>
+$(cat /etc/openvpn/ca-key.pem)
+</key>
 EOF2
-
-cat > /etc/openvpn/sam.ovpn << E0F3
-client
-dev tun
-proto tcp
-remote Trueid 999 udp
-remote $SERVER_IP 443
-http-proxy-retry
-http-proxy-option CUSTOM-HEADER X-Online-Host kd.truevisions.tv
-http-proxy $SERVER_IP 8080
-connect-retry 1
-connect-timeout 120
-resolv-retry infinite
-route-method exe
-nobind
-ping 5
-ping-restart 30
-persist-key
-persist-tun
-persist-remote-ip
-mute-replay-warnings
-verb 3
-cipher none
-comp-lzo
-script-security 3
-
-<ca>
-$(cat /etc/openvpn/ca.pem)
-</ca>
-<cert>
-$(cat /etc/openvpn/client-cert.pem)
-</cert>
-EOF3
 
 cat > /etc/openvpn/Dtacโซเชี่ยว.ovpn << Dtacโซเชี่ยว
 client
