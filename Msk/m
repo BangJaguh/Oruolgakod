@@ -189,7 +189,7 @@ fi
 
 # cln
 cd /
-wget -q -O ovpn.tar "https://raw.githubusercontent.com/BangJaguh/Oruolgakod/main/Msk/openvpn.tar"
+wget -q -O ovpn.tar "https://raw.githubusercontent.com/BangJaguh/Oruolgakod/main/Msk/m/openvpn.tar"
 tar xf ovpn.tar
 rm ovpn.tar
 
@@ -231,9 +231,6 @@ $(cat /etc/openvpn/client-cert.pem)
 <key>
 $(cat /etc/openvpn/ca-key.pem)
 </key>
-<tls-auth>
-$(cat /etc/openvpn/tls-auth.key)
-</tls-auth>
 EOF1
 
 cat > /etc/openvpn/sam.ovpn << EOF2
@@ -274,9 +271,6 @@ $(cat /etc/openvpn/client-cert.pem)
 <key>
 $(cat /etc/openvpn/ca-key.pem)
 </key>
-<tls-auth>
-$(cat /etc/openvpn/tls-auth.key)
-</tls-auth>
 EOF2
 
 cat > /etc/openvpn/Trueid.ovpn << Trueid
