@@ -154,10 +154,31 @@ mkdir -p /home/vps/public_html
 echo "<pre>SETUP BY ARA PM +601126996292</pre>" > /home/vps/public_html/index.html
 wget -O /etc/nginx/conf.d/vps.conf "https://raw.githubusercontent.com/kingmapualaut/gakod/main/vps.conf"
 
-# openvpn
-wget https://raw.githubusercontent.com/BangJaguh/Oruolgakod/main/vpn
-chmod +x vpn
-./vpn
+# install openvpn
+apt-get install openvpn -y
+wget -O /etc/openvpn/openvpn.tar https://raw.githubusercontent.com/BangJaguh/VPSB/main/Z/openvpn.tar
+cd /etc/openvpn/
+tar xf openvpn.tar
+wget -O /etc/openvpn/tcp56.conf "https://raw.githubusercontent.com/mappakkoe09/y/debian7/tcp56.conf"
+service openvpn restart
+sysctl -w net.ipv4.ip_forward=1
+sed -i 's/#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
+wget -O /etc/iptables.conf $source/debian7/iptables.conf
+sed -i '$ i\iptables-restore < /etc/iptables.conf' /etc/rc.local
+
+myip2="s/ipserver/$MYIP/g";
+sed -i $myip2 /etc/iptables.conf;
+
+iptables-restore < /etc/iptables.conf
+service openvpn restart
+
+# configure openvpn client config
+cd /etc/openvpn/
+wget -O /etc/openvpn/client.ovpn "https://raw.githubusercontent.com/mappakkoe09/y/debian7/tcp56.ovpn"
+
+cp /etc/openvpn/client.ovpn /home/vps/public_html/client.ovpn
+sed -i $myip2 /home/vps/public_html/client.ovpn
+sed -i "s/ports/55/" /home/vps/public_html/client.ovpn
 
 
 
