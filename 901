@@ -69,9 +69,9 @@ wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/macisvpn/p
 chmod +x /etc/pam.d/common-password
 
 #install squid3
-wget https://raw.githubusercontent.com/baymaxbhai/openvpn/master/squid3.sh
-chmod +x squid3.sh
-./squid3.sh
+wget https://raw.githubusercontent.com/kakitong/vip9/main/sqx
+chmod +x sqx
+./sqx
 
 # install webserver
 apt-get -y install nginx libexpat1-dev libxml-parser-perl
