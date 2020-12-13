@@ -1,0 +1,14 @@
+#!/bin/bash
+while [[ ! $sqx =~ Y|y|N|n ]]; do
+	read -p "Allow anyone to use your squid? : [Y/y] [N/n] " sqx;done
+if [[ ! `which docker` ]]; then
+
+printf "\b\b$fin%$(( ${#str}-${#fin}+1 ))s\n"
+wget https://raw.githubusercontent.com/Hira20/VPSauto/master/tool/squid.conf -qO $CONFDIR/squid.conf
+wget $GITMINE/sni-dns.conf -qO $CONFDIR/sni-dns.conf
+service squid stop 2> $DNUL
+wget $GITMINE/docker.yaml -qO- | docker stack up -c - dnsx
+docker service update $(docker service ls | grep squid | cut -d ' ' -f 1) --args $sqx
+clear
+echo "Smart DNS Squid successfully installed!"
+sleep 2
