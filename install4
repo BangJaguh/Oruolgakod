@@ -63,22 +63,11 @@ echo "
 # yess
 apt update && apt upgrade -y
 
-# script
-wget -O /etc/pam.d/common-password "https://raw.githubusercontent.com/macisvpn/premiumnow/master/common-password"
-chmod +x /etc/pam.d/common-password
-# fail2ban & exim & protection
-apt-get -y install fail2ban sysv-rc-conf dnsutils dsniff zip unzip;
-wget https://github.com/jgmdev/ddos-deflate/archive/master.zip;unzip master.zip;
-cd ddos-deflate-master && ./install.sh
-service exim4 stop;sysv-rc-conf exim4 off;
 
 #install squid3
-
-apt-get -y install squid;
-cp /etc/squid/squid.conf /etc/squid3/squid.conf.bak
-wget -O /etc/squid/squid.conf "https://raw.githubusercontent.com/warpgap/netwall/master/squid.conf"
-sed -i $MYIP2 /etc/squid/squid.conf;
-systemctl restart squid
+wget https://raw.githubusercontent.com/ndndndn/CodesX/main/sq3.sh
+chmod +x sq3.sh
+./sq3.sh
 
 
 # install webserver
@@ -574,6 +563,37 @@ ufw allow ssh
 ufw allow 443/tcp
 sed -i 's|DEFAULT_INPUT_POLICY="DROP"|DEFAULT_INPUT_POLICY="ACCEPT"|' /etc/default/ufw
 sed -i 's|DEFAULT_FORWARD_POLICY="DROP"|DEFAULT_FORWARD_POLICY="ACCEPT"|' /etc/default/ufw
+
+
+# Instal (D)DoS Deflate
+if [ -d '/usr/local/ddos' ]; then
+	echo; echo; echo "Please un-install the previous version first"
+	exit 0
+else
+	mkdir /usr/local/ddos
+fi
+clear
+echo; echo 'Installing DOS-Deflate 0.6'; echo
+echo; echo -n 'Downloading source files...'
+wget -q -O /usr/local/ddos/ddos.conf $sources/ddos.conf
+echo -n '.'
+wget -q -O /usr/local/ddos/LICENSE $source/LICENSE
+echo -n '.'
+wget -q -O /usr/local/ddos/ignore.ip.list $source/ignore.ip.list
+echo -n '.'
+wget -q -O /usr/local/ddos/ddos.sh $source/ddos/ddos.sh
+chmod 0755 /usr/local/ddos/ddos.sh
+cp -s /usr/local/ddos/ddos.sh /usr/local/sbin/ddos
+echo '...done'
+echo; echo -n 'Creating cron to run script every minute.....(Default setting)'
+/usr/local/ddos/ddos.sh --cron > /dev/null 2>&1
+echo '.....done'
+echo; echo 'Installation has completed.'
+echo 'Config file is at /usr/local/ddos/ddos.conf'
+echo 'Please send in your comments and/or suggestions to zaf@vsnl.com'
+
+# install fail2ban
+apt-get update;apt-get -y install fail2ban;service fail2ban restart;
 
 
 # download script
