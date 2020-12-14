@@ -259,6 +259,7 @@ username-as-common-name
 key-direction 0
 plugin /etc/openvpn/plugins/openvpn-plugin-auth-pam.so login
 server 10.200.0.0 255.255.0.0
+tls-auth ta.key 0
 ifconfig-pool-persist ipp.txt
 push "route-method exe"
 push "route-delay 2"
@@ -290,6 +291,7 @@ username-as-common-name
 key-direction 0
 plugin /etc/openvpn/plugins/openvpn-plugin-auth-pam.so login
 server 10.201.0.0 255.255.0.0
+tls-auth ta.key 0
 ifconfig-pool-persist ipp.txt
 push "route-method exe"
 push "route-delay 2"
@@ -473,7 +475,30 @@ L57p4njl0n61NNUnbvH0YEPbvKPk0CJ3EGGQE/uhwKIU+pJt/o9S0wppq9sUrOuD
 1eelmMZPuWH3aSVIUqiucEsczGn5GfqIc2KNHAMfJ5JhLOjjJvb1cewD2DpIiI2I
 bVexIf9WpjXw+LZrjSifNgQ1Eqfdd3tDiwIBAg==
 -----END DH PARAMETERS-----
+cat <<'EOF13'> /etc/openvpn/ta.key
 EOF13
+#
+# 2048 bit OpenVPN static key
+#
+-----BEGIN OpenVPN Static key V1-----
+dedf17ed486c4bb736e5eebaf06e9850
+1d26650b0f85099f9daed774880654f8
+21fb0cc4c4ee4e20defbe15a488f2d5c
+33e3dc7d2a5adaa6f7fe66801332f1a8
+b676a12e625e25d354719fddd5df2799
+04060ca5c08e10ab3f12b54c60b15e64
+a5c500a2a71dcd31b2e88b2be87d43cc
+4b73cbfa734eba89858fc91b85dd9feb
+6e93a4422116b8fcc0b563c0336a0e1a
+3d537dc7a54685fc3faafcf429ad4261
+535021c3a96c34e1004cd59579289690
+d3be5e4d3a546486a19a8bab192bc096
+efa13b6dbcbf9c63e5c5488c36ffa59d
+945db353e023ffcbd7467a4f8685a060
+40a13da4fb822e1b16e998c5941563fc
+82011b788e913235dac30d91bc29759b
+-----END OpenVPN Static key V1-----
+EOF15
 
  # Getting all dns inside resolv.conf then use as Default DNS for our openvpn server
  grep -v '#' /etc/resolv.conf | grep 'nameserver' | grep -E -o '[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}' | while read -r line; do
