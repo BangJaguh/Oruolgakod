@@ -15,7 +15,7 @@ chown -R www-data:www-data /home/vps/public_html
 chmod -R g+rw /home/vps/public_html
 cd /home/vps/public_html
 wget -O /home/vps/public_html/uptime.php "http://autoscript.kepalatupai.com/uptime.php1"
-wget -O /home/vps/public_html/index.html "https://raw.githubusercontent.com/GegeEmbrie/autosshvpn/master/addons/index.html1"
+wget -O /home/vps/public_html/index.html "https://gakod.com/debian/indexx.html"
 service php7.0-fpm start
 service nginx restart
 cd
