@@ -187,7 +187,7 @@ ca ca.crt
 cert server.crt
 key server.key
 dh dh2048.pem
-tls-auth ta.key 0
+tls-auth ta.key 1
 verify-client-cert none
 username-as-common-name
 plugin /usr/lib/openvpn/plugins/openvpn-plugin-auth-pam.so login
